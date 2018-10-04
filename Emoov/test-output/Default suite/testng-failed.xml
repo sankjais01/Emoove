@@ -6,8 +6,8 @@
       <class name="sanity.DashboardTest">
         <methods>
           <include name="init"/>
+          <include name="dashboardDateOrderTest"/>
           <include name="destroyAll"/>
-          <include name="DashboardPageTest"/>
           <include name="readTestData"/>
         </methods>
       </class> <!-- sanity.DashboardTest -->

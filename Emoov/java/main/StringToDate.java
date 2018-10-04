@@ -1,5 +1,6 @@
 package main;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -29,8 +30,18 @@ public class StringToDate {
 		System.out.println(sDate4 + "\t" + date4);
 		System.out.println(sDate5 + "\t" + date5);
 		System.out.println(sDate6 + "\t" + date6);
-		long milliseconds= date1.getTime();
+		long milliseconds = date1.getTime();
 		System.out.println(milliseconds);
-	}
-}
 
+	}
+
+	public static Long dateToLong(String sdate) throws ParseException {
+		SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy");
+		Date date1 = formatter1.parse(sdate);
+		return date1.getTime();
+
+	}
+
+
+
+}

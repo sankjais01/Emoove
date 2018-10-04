@@ -16,8 +16,6 @@ import pom.LoginPage;
 
 public class DashboardTest {
 
-
-
 	WebDriver driver;
 	boolean flag;
 	public static TestData data = new TestData();
@@ -43,16 +41,22 @@ public class DashboardTest {
 		Assert.assertTrue(login.ValidUserLogin(data), "User failed to Login");
 
 	}
-	
-	
-	
-	@Test(priority = 2)
-	public void DashboardPageTest() {
-		DashboardPage testDashboard= new DashboardPage(driver);
-		testDashboard.testRecordSize();
 
+	//@Test(priority = 3)
+	public void dashboardRecordCountTest() {
+		DashboardPage testDashboard = new DashboardPage(driver);
+		Assert.assertTrue(testDashboard.testRecordSize(), "Test Number of records failed");
+	
 	}
 	
+	@Test(priority = 2)
+	public void dashboardDateOrderTest() {
+		DashboardPage testDashboard = new DashboardPage(driver);
+		testDashboard.testDateOrder("desc");
+		testDashboard.testDateOrder("asc");
+		
+
+	}
 
 	@AfterClass
 	public void destroyAll() {
@@ -60,9 +64,4 @@ public class DashboardTest {
 		System.out.println("all driver connection closed");
 	}
 
-
-
 }
-
-
-
