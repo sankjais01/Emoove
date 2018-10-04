@@ -6,13 +6,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.asserts.SoftAssert;
 
-import locators.HomePageLocators;
+import locators.DashboardLocators;
 import locators.LoginPageLocators;
 import locators.URLLocators;
-import sanity.LoginPageTest;
+import main.TestData;
 
 public class LoginPage {
 
@@ -43,20 +42,21 @@ public class LoginPage {
 	@FindBy(xpath = LoginPageLocators.SIGNUP_XPATH)
 	WebElement SIGNUP_LINK;
 
-	public boolean ValidUserLogin() {
+	public boolean ValidUserLogin(TestData data) {
 
 		try {
-			USERNAME_TEXTFIELD.sendKeys(LoginPageTest.data.USERNAME);
-			PASSWORD_TEXTFIELD.sendKeys(LoginPageTest.data.PASSWORD);
+			USERNAME_TEXTFIELD.sendKeys(data.USERNAME);
+			PASSWORD_TEXTFIELD.sendKeys(data.PASSWORD);
 			LOGINBUTTON.click();
 			Thread.sleep(5000);
-			if (driver.findElement(By.xpath(HomePageLocators.TOPMENU_XPATH)).isDisplayed()) {
+			if (driver.findElement(By.xpath(DashboardLocators.TOPMENU_XPATH)).isDisplayed()) {
 				flag = true;
-				asert.assertTrue(true);
+				asert.assertTrue(true,"User failed Login");
+				
 
 			} else {
 				flag = false;
-				asert.assertTrue(false);
+				asert.assertTrue(false,"User Failed to Login");
 			}
 		} catch (NoSuchElementException e) {
 			// TODO Auto-generated catch block

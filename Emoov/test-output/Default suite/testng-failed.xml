@@ -3,14 +3,14 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="sanity.LoginPageTest">
+      <class name="sanity.DashboardTest">
         <methods>
-          <include name="readTestData"/>
-          <include name="destroyAll"/>
           <include name="init"/>
-          <include name="test"/>
+          <include name="destroyAll"/>
+          <include name="DashboardPageTest"/>
+          <include name="readTestData"/>
         </methods>
-      </class> <!-- sanity.LoginPageTest -->
+      </class> <!-- sanity.DashboardTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

@@ -3,15 +3,20 @@ package sanity;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import main.BrowserFactory;
 import main.TestData;
+import pom.DashboardPage;
 import pom.LoginPage;
 
-public class LoginPageTest {
+public class DashboardTest {
+
+
 
 	WebDriver driver;
 	boolean flag;
@@ -20,11 +25,9 @@ public class LoginPageTest {
 	@BeforeClass
 	public void readTestData() {
 		data.readExcelData();
-		// System.out.println(data.USERNAME);
-		// System.out.println(data.PASSWORD);
 	}
 
-	@BeforeTest
+	@BeforeClass
 	public void init() {
 		driver = BrowserFactory.createDriver("chrome");
 		if (driver == null) {
@@ -34,12 +37,22 @@ public class LoginPageTest {
 		System.out.println("Opening Browser");
 	}
 
-	@Test
-	public void LoginTest() {
+	@Test(priority = 1)
+	public void LoginPageTest() {
 		LoginPage login = new LoginPage(driver);
 		Assert.assertTrue(login.ValidUserLogin(data), "User failed to Login");
 
 	}
+	
+	
+	
+	@Test(priority = 2)
+	public void DashboardPageTest() {
+		DashboardPage testDashboard= new DashboardPage(driver);
+		testDashboard.testRecordSize();
+
+	}
+	
 
 	@AfterClass
 	public void destroyAll() {
@@ -47,4 +60,9 @@ public class LoginPageTest {
 		System.out.println("all driver connection closed");
 	}
 
+
+
 }
+
+
+
