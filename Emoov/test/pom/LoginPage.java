@@ -28,26 +28,26 @@ public class LoginPage {
 	}
 
 	@FindBy(xpath = LoginPageLocators.USERNAME_XPATH)
-	WebElement USERNAME_TEXTFIELD;
+	WebElement username_textfield;
 
 	@FindBy(xpath = LoginPageLocators.PASSWORD_XPATH)
-	WebElement PASSWORD_TEXTFIELD;
+	WebElement password_textfield;
 
 	@FindBy(xpath = LoginPageLocators.FORGOTPASSWORD_LINK_XPATH)
-	WebElement FORGOTPASSWORD_TEXTFIELD;
+	WebElement forgotpassword_link;
 
 	@FindBy(xpath = LoginPageLocators.LOGIN_BUTTON_XPATH)
-	WebElement LOGINBUTTON;
+	WebElement login_button;
 
 	@FindBy(xpath = LoginPageLocators.SIGNUP_XPATH)
-	WebElement SIGNUP_LINK;
+	WebElement signUp_link;
 
 	public boolean ValidUserLogin(TestData data) {
 
 		try {
-			USERNAME_TEXTFIELD.sendKeys(data.USERNAME);
-			PASSWORD_TEXTFIELD.sendKeys(data.PASSWORD);
-			LOGINBUTTON.click();
+			username_textfield.sendKeys(data.USERNAME);
+			password_textfield.sendKeys(data.PASSWORD);
+			login_button.click();
 			Thread.sleep(5000);
 			if (driver.findElement(By.xpath(DashboardLocators.TOPMENU_XPATH)).isDisplayed()) {
 				flag = true;

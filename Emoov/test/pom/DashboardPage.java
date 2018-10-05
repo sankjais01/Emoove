@@ -2,27 +2,36 @@ package pom;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 
 import locators.DashboardLocators;
+import locators.URLLocators;
 import main.StringToDate;
 
 public class DashboardPage {
 
 	WebDriver driver;
-	boolean flag = false;
+	boolean recortest_flag = false;
+	boolean asc_order_flag = false;
+	boolean desc_order_flag = false;
+
 	SoftAssert asert = new SoftAssert();
 	int countRecord = 0;
 	Long firstdate;
 	Long dates[];
-	// WebDriverWait wait = new WebDriverWait(driver, 5000);
+	// WebDriverWait wait = new WebDriverWait(driver, 10000);
 
 	public DashboardPage(WebDriver driver) {
 		this.driver = driver;
@@ -31,220 +40,287 @@ public class DashboardPage {
 	}
 
 	@FindBy(xpath = DashboardLocators.TOPMENU_XPATH)
-	WebElement MENUBAR;
+	WebElement menubar;
 
 	@FindBy(xpath = DashboardLocators.TOPMENU_PROPETIES_XPATH)
-	WebElement MENU_PROPERTY;
+	WebElement menu_property;
 
 	@FindBy(xpath = DashboardLocators.TOPMENU_VIEWINGS_XPATH)
-	WebElement MENU_VIEWINGS;
+	WebElement menu_viewings;
 
 	@FindBy(xpath = DashboardLocators.TOPMENU_OFFERS_XPATH)
-	WebElement MENU_OFFERS;
+	WebElement menu_offers;
 
 	@FindBy(xpath = DashboardLocators.TOPMENU_PACKAGES_ADDONS_XPATH)
-	WebElement MENU_PACKAGES;
+	WebElement menu_packages;
 
 	@FindBy(xpath = DashboardLocators.TOPMENU_REFERFREIEND_XPATH)
-	WebElement MENU_REFERFRIEND;
+	WebElement menu_referfriend;
 
 	@FindBy(xpath = DashboardLocators.BUYER_AUTOMATIONTEST_XPATH)
-	WebElement MENU_BUYER_AUTOMATIONTEST;
+	WebElement menu_buyer_automationtest;
 
 	@FindBy(xpath = DashboardLocators.LOGOUT_XPATH)
-	WebElement MENU_LOGOUT;
+	WebElement menu_logout;
 
 	@FindBy(xpath = DashboardLocators.MANAGEVIEWINGS_XPATH)
-	WebElement MENU_MANAGEVIEWINGS;
+	WebElement menu_manageViewings;
 
 	@FindBy(xpath = DashboardLocators.LISTVIEW_BUTTON_XPATH)
-	WebElement BUTTON_LISTVIEW;
+	WebElement button_listviews;
 
 	@FindBy(xpath = DashboardLocators.GRIDVIEW_BUTTON_XPATH)
-	WebElement BUTTON_GRIDVIEW;
+	WebElement button_gridview;
 
 	@FindBy(xpath = DashboardLocators.VIEW_SELECTOR_ARRORW_XPATH)
-	WebElement ARROW;
+	WebElement arrow;
 
 	@FindBy(xpath = DashboardLocators.VIEW_SELECTOR_AS_ALL_XPATH)
-	WebElement SELECT_ALL;
+	WebElement select_all;
 
 	@FindBy(xpath = DashboardLocators.RECORD_SIZE_5)
-	WebElement RECORD5;
+	WebElement record_5;
 
 	@FindBy(xpath = DashboardLocators.RECORD_SIZE_10)
-	WebElement RECORD10;
+	WebElement record_10;
 
 	@FindBy(xpath = DashboardLocators.RECORD_SIZE_20)
-	WebElement RECORD20;
+	WebElement record_20;
 
 	@FindBy(xpath = DashboardLocators.RECORD_VIEWBUTTONS)
-	List<WebElement> VIEWBUTTONS_LIST;
-	
-	@FindBy(xpath = DashboardLocators.DDDMMYYYY_XPATH)
-	List<WebElement> DDMMYYYY_LIST;
+	List<WebElement> viewbuttons_list;
 
-	@FindBy(xpath=DashboardLocators.DATECOLUMN_XPATH)
-	WebElement DATECOL;	
-	
-	
+	@FindBy(xpath = DashboardLocators.DDDMMYYYY_XPATH)
+	List<WebElement> ddmmyyyy_list;
+
+	@FindBy(xpath = DashboardLocators.DATECOLUMN_XPATH)
+	WebElement date_cols;
+
 	public boolean testRecordSize()
 
 	{
 		try {
-			MENU_VIEWINGS.click();
-			MENU_MANAGEVIEWINGS.click();
-			ARROW.click();
-			SELECT_ALL.click();
+			// driver.manage().timeouts().implicitlyWait(5, TimeUnit.MINUTES);
+			// wait.until(ExpectedConditions.visibilityOfAllElements(MENU_VIEWINGS));
+			driver.navigate().refresh();
+			Thread.sleep(5000);
+			menu_viewings.click();
+			menu_manageViewings.click();
+			arrow.click();
+			select_all.click();
 			Thread.sleep(8000);
-			BUTTON_LISTVIEW.click();
+			button_listviews.click();
 			Thread.sleep(3000);
 			countRecord = 0;
+			// pre condition- records should be more than 20 in database
 
+			// **************************************************
 			System.out.println("Testing for 5 records");
-			RECORD5.click();
+			record_5.click();
 			Thread.sleep(10000);
-			for (WebElement webElement : VIEWBUTTONS_LIST) {
+			for (WebElement webElement : viewbuttons_list) {
 				countRecord++;
 			}
 			if (countRecord == 5) {
-				flag = true;
+				recortest_flag = true;
 				System.out.println("Records are matching");
-				asert.assertTrue(flag, "There are only" + countRecord + "Records");
+				asert.assertTrue(recortest_flag, "There are only" + countRecord + "Records");
 
 			} else {
-				flag = false;
-				asert.assertFalse(flag, "There are only" + countRecord + "Records");
+				recortest_flag = false;
+				asert.assertFalse(recortest_flag, "There are only" + countRecord + "Records");
 				System.out.println("Records are not matching");
 
 			}
-
+			// ********************************************************
 			countRecord = 0;
 			System.out.println("Testing for 10 records");
-			RECORD10.click();
+			record_10.click();
 			Thread.sleep(10000);
-			for (WebElement webElement : VIEWBUTTONS_LIST) {
+			for (WebElement webElement : viewbuttons_list) {
 				countRecord++;
 			}
 			if (countRecord == 10) {
-				flag = true;
+				recortest_flag = true;
 				System.out.println("Records are matching");
-				asert.assertTrue(flag, "There are only" + countRecord + "Records");
+				asert.assertTrue(recortest_flag, "There are only" + countRecord + "Records");
 
 			} else {
-				flag = false;
-				asert.assertFalse(flag, "There are only" + countRecord + "Records");
+				recortest_flag = false;
+				asert.assertFalse(recortest_flag, "There are only" + countRecord + "Records");
 				System.out.println("Records are not matching");
 
 			}
 
+			// ******************************************************
 			System.out.println("Testing for 20 records");
-			RECORD20.click();
-			Thread.sleep(10000);
-			for (WebElement webElement : VIEWBUTTONS_LIST) {
+			record_20.click();
+			Thread.sleep(12000);
+			for (WebElement webElement : viewbuttons_list) {
 				countRecord++;
 			}
 			if (countRecord == 20) {
-				flag = true;
+				recortest_flag = true;
 				System.out.println("Records are matching");
-				asert.assertTrue(flag, "There are only" + countRecord + "Records");
+				asert.assertTrue(recortest_flag, "There are only" + countRecord + "Records");
 
 			} else {
-				flag = false;
-				asert.assertFalse(flag, "There are only" + countRecord + "Records");
+				recortest_flag = false;
+				asert.assertFalse(recortest_flag, "There are only" + countRecord + "Records");
 				System.out.println("Records are not matching");
 
-			}
-
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return flag;
-	}
-
-	public void testDateOrder(String order) {
-
-		try {
-			MENU_VIEWINGS.click();
-			MENU_MANAGEVIEWINGS.click();
-			ARROW.click();
-			Thread.sleep(500);
-			SELECT_ALL.click();
-			Thread.sleep(7000);
-			BUTTON_LISTVIEW.click();
-			Thread.sleep(2000);
-			RECORD5.click();
-			Thread.sleep(10000);
-			for (WebElement webElement : VIEWBUTTONS_LIST) {
-				countRecord++;
-			}
-			if (countRecord > 1) {
-				flag = true;
-				System.out.println("Testing order");
-				int i = 0;
-				dates = new Long[countRecord];
-
-				if (order.equalsIgnoreCase("Desc")) {
-					for (WebElement webElement : DDMMYYYY_LIST) {
-
-						dates[i] = StringToDate.dateToLong(webElement.getText());
-						// StringToDate.dateToLong(DDMMYYYY_LIST[j-1].getText())
-						System.out.println(dates[i]);
-						i++;
-
-					}
-
-					for (int j = 1; j < countRecord; j++) {
-						testDescending(dates[j - 1], dates[j]);
-
-					}
-				}
-
-				else if (order.equalsIgnoreCase("Asc")) {
-
-					
-					DATECOL.click();
-					Thread.sleep(5000);
-					
-					for (WebElement webElement : DDMMYYYY_LIST) {
-
-						dates[i] = StringToDate.dateToLong(webElement.getText());
-						// StringToDate.dateToLong(DDMMYYYY_LIST[j-1].getText())
-						System.out.println(dates[i]);
-						i++;
-
-					}
-
-					for (int j = 1; j < countRecord; j++) {
-						testAscending(dates[j - 1], dates[j]);
-
-					}
-
-				}
-
-				
-			} else {
-				System.out.println("There are no records to compare");
 			}
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.err.println(e);
-			Assert.assertTrue(false, "Date Order test failed.");
+			asert.assertTrue(false, "Failed to test Record size due to Exception occurs");
+		}
+
+		return recortest_flag;
+	}
+
+	public boolean testDateDescOrder() {
+
+		try {
+			countRecord = 0;
+			driver.navigate().refresh();
+			Thread.sleep(5000);
+			menu_viewings.click();
+			menu_manageViewings.click();
+			arrow.click();
+			Thread.sleep(500);
+			select_all.click();
+			Thread.sleep(7000);
+			button_listviews.click();
+			Thread.sleep(2000);
+			record_5.click();
+			Thread.sleep(10000);
+			for (WebElement webElement : viewbuttons_list) {
+				countRecord++;
+			}
+
+			if (countRecord > 1) {
+				desc_order_flag = true;
+				System.out.println("Testing Desc order");
+				int i = 0;
+				dates = new Long[countRecord];
+				for (WebElement webElement : ddmmyyyy_list) {
+					dates[i] = StringToDate.dateToLong(webElement.getText());
+					// StringToDate.dateToLong(DDMMYYYY_LIST[j-1].getText())
+					// System.out.println(dates[i]);
+					i++;
+
+				}
+
+				for (int j = 1; j < countRecord; j++) {
+					desc_order_flag = testDescending(dates[j - 1], dates[j]);
+
+				}
+
+			} else {
+				System.out.println("There are no records to compare");
+				return desc_order_flag;
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.err.println(e);
+			Assert.assertTrue(false, "Date Desc Order test failed due to Exception.");
+		}
+
+		return desc_order_flag;
+	}
+
+	public boolean testDateAscOrder() {
+
+		try {
+			countRecord = 0;
+			driver.navigate().refresh();
+			Thread.sleep(5000);
+			menu_viewings.click();
+			menu_manageViewings.click();
+			arrow.click();
+			Thread.sleep(500);
+			select_all.click();
+			Thread.sleep(7000);
+			button_listviews.click();
+			Thread.sleep(2000);
+			record_5.click();
+			Thread.sleep(10000);
+			for (WebElement webElement : viewbuttons_list) {
+				countRecord++;
+			}
+
+			if (countRecord > 1) {
+				recortest_flag = true;
+				System.out.println("Testing Ascending order");
+				int i = 0;
+				dates = new Long[countRecord];
+
+				date_cols.click();
+				Thread.sleep(10000);
+
+				for (WebElement webElement : ddmmyyyy_list) {
+					dates[i] = StringToDate.dateToLong(webElement.getText());
+					// StringToDate.dateToLong(DDMMYYYY_LIST[j-1].getText())
+					// System.out.println(dates[i]);
+					i++;
+
+				}
+
+				for (int j = 1; j < countRecord; j++) {
+					asc_order_flag = testAscending(dates[j - 1], dates[j]);
+
+				}
+
+			} else {
+				System.out.println("There are no records to compare");
+				asc_order_flag = false;
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.err.println(e);
+			Assert.assertTrue(false, "Date Asc Order test failed due to exception.");
+		}
+		return asc_order_flag;
+
+	}
+
+	public boolean testAscending(Long a, Long b) {
+
+		if (a <= b) {
+			asert.assertTrue(true, "Dates are not in Ascending order");
+			return true;
+		} else {
+			asert.assertTrue(false, "Dates are not in Ascending order");
+			return false;
 		}
 
 	}
 
-	public void testAscending(Long a, Long b) {
-
-		Assert.assertTrue(a <= b, "Dates are not in ascending order");
+	public boolean testDescending(Long a, Long b) {
+		if (a >= b) {
+			asert.assertTrue(true, "Dates are not in descending order");
+			return true;
+		} else {
+			asert.assertTrue(false, "Dates are not in descending order");
+			return false;
+		}
 
 	}
 
-	public void testDescending(Long a, Long b) {
-		Assert.assertTrue(a >= b, "Dates are not in descending order");
+	public boolean logout() throws InterruptedException {
+
+		menu_buyer_automationtest.click();
+		Thread.sleep(500);
+		menu_logout.click();
+		if (driver.getCurrentUrl().equalsIgnoreCase(URLLocators.LOGINPAGE_URL)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }
